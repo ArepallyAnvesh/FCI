@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Add Product - FCI{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-wrapper wide">
+        <h2>Add New Product</h2>
+        <p class="form-subtitle">Fill in the details of the product you want to list</p>
+
+        <form method="post" action="{{ url_for('add_product') }}" enctype="multipart/form-data">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" name="productName" placeholder="e.g. Fresh Tomatoes" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Spices">Spices</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price">Price (per unit, in &#8377;)</label>
+                    <input type="number" id="price" name="price" min="0" step="0.01" placeholder="e.g. 25.00" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity Available</label>
+                    <input type="number" id="quantity" name="quantity" min="0" placeholder="e.g. 100" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" placeholder="Describe your product (freshness, origin, etc.)"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="productImage">Upload Product Image</label>
+                <input type="file" id="productImage" name="productImage" accept="image/*">
+                <img id="imagePreview" alt="Preview" style="display:none; margin-top:12px; max-height:180px; border-radius:8px;">
+            </div>
+
+            <button type="submit" class="btn btn-solid btn-full">Add Product</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

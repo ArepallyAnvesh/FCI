@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ product.product_name }} - FCI{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="margin:30px 0 10px;">
+        <a href="{{ url_for('view_products') }}" style="color:#2e7d32; font-weight:600;">&larr; Back to Products</a>
+    </div>
+
+    <div class="details-wrapper" style="margin-bottom:60px;">
+        <div>
+            {% if product.image_path %}
+                <img src="{{ url_for('static', filename=product.image_path) }}" alt="{{ product.product_name }}" class="details-img">
+            {% else %}
+                <img src="https://via.placeholder.com/500x350.png?text=No+Image" alt="No image" class="details-img">
+            {% endif %}
+        </div>
+
+        <div class="details-info">
+            <span class="category-tag">{{ product.category }}</span>
+            <h1>{{ product.product_name }}</h1>
+            <div class="price">&#8377; {{ "%.2f"|format(product.price) }} <span style="font-size:0.9rem; color:#666; font-weight:400;">per unit</span></div>
+
+            <div class="info-row"><strong>Quantity Available:</strong> {{ product.quantity }}</div>
+            <div class="info-row"><strong>Description:</strong></div>
+            <p style="color:#555;">{{ product.description }}</p>
+
+            <div class="farmer-box">
+                <h3 style="color:#1b5e20; margin-bottom:8px;">Contact Farmer</h3>
+                <div class="info-row"><strong>Farmer Name:</strong> {{ product.farmer_name }}</div>
+                <div class="info-row"><strong>Contact Number:</strong> {{ product.farmer_mobile }}</div>
+                <a href="tel:{{ product.farmer_mobile }}" class="btn btn-solid btn-small" style="margin-top:10px;">Call Farmer</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

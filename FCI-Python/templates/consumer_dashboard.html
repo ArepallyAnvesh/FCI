@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Consumer Dashboard - FCI{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="container">
+        <h1>Welcome, {{ session.get('consumer_name') }}!</h1>
+        <p>Browse fresh produce listed directly by farmers.</p>
+    </div>
+</div>
+
+<div class="container">
+    <form action="{{ url_for('view_products') }}" method="get" class="search-bar">
+        <input type="text" name="keyword" placeholder="Search products by name or category...">
+        <button type="submit" class="btn btn-solid">Search</button>
+    </form>
+
+    <div class="dashboard-actions">
+        <a href="{{ url_for('view_products') }}" class="btn btn-outline" style="color:#2e7d32;border-color:#2e7d32;">View All Products</a>
+    </div>
+
+    <div style="height:20px;"></div>
+</div>
+{% endblock %}

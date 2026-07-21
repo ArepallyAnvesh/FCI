@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Login - FCI{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-wrapper">
+        <h2>Welcome Back</h2>
+        <p class="form-subtitle">Login to your FCI account</p>
+
+        <div class="role-tabs">
+            <a href="{{ url_for('login', role='farmer') }}" class="{{ 'active' if role == 'farmer' }}">I'm a Farmer</a>
+            <a href="{{ url_for('login', role='consumer') }}" class="{{ 'active' if role == 'consumer' }}">I'm a Consumer</a>
+        </div>
+
+        {% if registered == 'true' %}
+            <div class="alert alert-success">Registration successful! Please login below.</div>
+        {% endif %}
+
+        <form method="post" action="{{ url_for('login', role=role) }}">
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-solid btn-full">Login as {{ "Farmer" if role == "farmer" else "Consumer" }}</button>
+        </form>
+
+        <div class="form-footer-link">
+            Don't have an account? <a href="{{ url_for('register', role=role) }}">Register here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}FCI - Home{% endblock %}
+
+{% block content %}
+
+<!-- ---------------- Hero Banner ---------------- -->
+<section class="hero">
+    <div class="container">
+        <h1>Fresh From the Farm, Straight to You</h1>
+        <p>FCI connects farmers directly with consumers - no middlemen, fair prices, and fresher produce for every household.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('register', role='farmer') }}" class="btn btn-primary">Join as Farmer</a>
+            <a href="{{ url_for('register', role='consumer') }}" class="btn btn-outline">Join as Consumer</a>
+        </div>
+    </div>
+</section>
+
+<!-- ---------------- About ---------------- -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">About FCI</h2>
+        <p class="section-subtitle">A simple platform built to empower farmers and benefit consumers</p>
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="icon">🌾</div>
+                <h3>For Farmers</h3>
+                <p>List your produce directly, set your own prices, and reach consumers without relying on middlemen.</p>
+            </div>
+            <div class="about-card">
+                <div class="icon">🛒</div>
+                <h3>For Consumers</h3>
+                <p>Buy fresh, farm-sourced produce at fair prices while supporting local farmers directly.</p>
+            </div>
+            <div class="about-card">
+                <div class="icon">🤝</div>
+                <h3>Direct Connection</h3>
+                <p>Simple registration and dashboards make it easy for both sides to connect and communicate.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ---------------- Featured Products ---------------- -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="section-title">Featured Products</h2>
+        <p class="section-subtitle">A few of the freshest listings on FCI right now</p>
+
+        {% if featured %}
+            <div class="product-grid">
+                {% for p in featured %}
+                    <div class="product-card">
+                        {% if p.image_path %}
+                            <img src="{{ url_for('static', filename=p.image_path) }}" alt="{{ p.product_name }}" class="product-img">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x170.png?text=No+Image" alt="No image" class="product-img">
+                        {% endif %}
+                        <div class="product-body">
+                            <span class="category-tag">{{ p.category }}</span>
+                            <h3>{{ p.product_name }}</h3>
+                            <div class="price">&#8377; {{ "%.2f"|format(p.price) }}</div>
+                            <div class="qty">Available: {{ p.quantity }}</div>
+                            <div class="card-actions">
+                                <a href="{{ url_for('product_details', product_id=p.product_id) }}" class="btn btn-solid btn-small">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">No products listed yet. Be the first farmer to add one!</div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ---------------- Contact Teaser ---------------- -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Have a question or suggestion? We would love to hear from you.</p>
+        <div style="text-align:center;">
+            <a href="{{ url_for('contact') }}" class="btn btn-solid">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

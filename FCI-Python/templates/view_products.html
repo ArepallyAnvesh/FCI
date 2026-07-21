@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Browse Products - FCI{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="container">
+        <h1>Browse Products</h1>
+        <p>
+            {% if keyword %}
+                Showing results for "{{ keyword }}"
+            {% else %}
+                Fresh produce listed directly by farmers on FCI
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <form action="{{ url_for('view_products') }}" method="get" class="search-bar">
+        <input type="text" name="keyword" value="{{ keyword or '' }}" placeholder="Search products by name or category...">
+        <button type="submit" class="btn btn-solid">Search</button>
+    </form>
+
+    {% if products %}
+        <div class="product-grid" style="margin-top:20px; margin-bottom:50px;">
+            {% for p in products %}
+                <div class="product-card">
+                    {% if p.image_path %}
+                        <img src="{{ url_for('static', filename=p.image_path) }}" alt="{{ p.product_name }}" class="product-img">
+                    {% else %}
+                        <img src="https://via.placeholder.com/300x170.png?text=No+Image" alt="No image" class="product-img">
+                    {% endif %}
+                    <div class="product-body">
+                        <span class="category-tag">{{ p.category }}</span>
+                        <h3>{{ p.product_name }}</h3>
+                        <div class="price">&#8377; {{ "%.2f"|format(p.price) }}</div>
+                        <div class="qty">Available: {{ p.quantity }} | Sold by: {{ p.farmer_name }}</div>
+                        <div class="card-actions">
+                            <a href="{{ url_for('product_details', product_id=p.product_id) }}" class="btn btn-solid btn-small">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">No products found. Try a different search term.</div>
+    {% endif %}
+</div>
+{% endblock %}

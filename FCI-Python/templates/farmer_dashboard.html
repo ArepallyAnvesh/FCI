@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Farmer Dashboard - FCI{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="container">
+        <h1>Welcome, {{ session.get('farmer_name') }}!</h1>
+        <p>Manage your product listings from here.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="dashboard-actions">
+        <a href="{{ url_for('add_product') }}" class="btn btn-solid">+ Add Product</a>
+    </div>
+
+    {% if products %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in products %}
+                        <tr>
+                            <td>
+                                {% if p.image_path %}
+                                    <img src="{{ url_for('static', filename=p.image_path) }}" class="thumb" alt="{{ p.product_name }}">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/50" class="thumb" alt="No image">
+                                {% endif %}
+                            </td>
+                            <td>{{ p.product_name }}</td>
+                            <td>{{ p.category }}</td>
+                            <td>&#8377; {{ "%.2f"|format(p.price) }}</td>
+                            <td>{{ p.quantity }}</td>
+                            <td>
+                                <a href="{{ url_for('edit_product', product_id=p.product_id) }}" class="btn btn-solid btn-small">Edit</a>
+                                <a href="{{ url_for('delete_product', product_id=p.product_id) }}" class="btn btn-danger btn-small confirm-delete">Delete</a>
+                                <a href="{{ url_for('product_details', product_id=p.product_id) }}" class="btn btn-outline btn-small" style="color:#2e7d32;border-color:#2e7d32;">View</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            You haven't added any products yet. Click "Add Product" to get started.
+        </div>
+    {% endif %}
+
+    <div style="height:50px;"></div>
+</div>
+{% endblock %}
